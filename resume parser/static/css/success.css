@@ -1,0 +1,88 @@
+.main-success
+{
+    position: absolute;
+    /*right:0;*/
+    right:-402px;
+    z-index: 2000;
+    transform: translateY(-50%);
+    width:360px;
+    height: 70px;
+    display: flex;
+    background: #fff;
+    border-left: 2px solid green;
+    padding: 10px 15px;
+    box-shadow: 3px 3px 7px gray;
+    opacity: 0;
+}
+.show-success
+{
+    animation: in 1s ease-in-out;
+    animation-fill-mode: forwards;
+}
+.hide-success
+{
+    animation: out 1s ease-in-out;
+    animation-fill-mode: forwards;
+}
+@keyframes in
+{
+    0%{
+        opacity: 0;
+        right: -402px;
+    }
+    50%{
+        opacity: 0;
+    }
+    100%{
+        opacity: 1;
+        right: 0px;
+    }
+}
+@keyframes out
+{
+    0%{
+        opacity: 1;
+        right: 0;
+    }
+    50%{
+        opacity: 0;
+    }
+    100%{
+        opacity: 0;
+        right: -402px;
+    }
+}
+.success-body
+{
+    align-self: center;
+    display: flex;
+}
+.success-tick
+{
+    height: 45px;
+    width: 45px;
+    float: left;
+    display: flex;
+    align-items: center;
+    background-color: greenyellow;
+    border-radius: 50px;
+    margin-right: 10px;
+}
+.success-tick .fa-check
+{
+    font-size: 30px;
+    color:white;
+    margin: auto;
+}
+.success-text
+{
+    width: 250px;
+    float: left;
+    align-self: center;
+    font-size: 16px;
+}
+.success-text span
+{
+    font-size: 18px;
+    font-weight: 700;
+}
