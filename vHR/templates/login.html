@@ -21,36 +21,23 @@
         <!-- load MUI -->
         <link href="//cdn.muicss.com/mui-0.10.1/css/mui.min.css" rel="stylesheet" type="text/css" />
         <script src="//cdn.muicss.com/mui-0.10.1/js/mui.min.js"></script>
-        <script src="https://cdn.rawgit.com/nnattawat/flip/master/dist/jquery.flip.min.js"></script>
-        <script>
-            $(document).ready(function(){
-                $("#card").flip({
-                    trigger: 'manual'
-                });
-                $(".register-a").click(function(){
-                    $("#card").flip(true);
-                });
-                $(".login-a").click(function(){
-                    $("#card").flip(false);
-                });
-            });
-            
-        </script>
+        
 <!--    Login container style    -->
         <style>
             body{
-                background-image: url("{{url_for('static',filename='images/login.jpg')}}");
-                background-size: cover;
+                background-image: linear-gradient(to top, lightblue,dodgerblue);
             }
             .main-container{
                 width: 300px;
             }
             .login-container .mui-form{
                 position: absolute !important;
+                top:50%;
+                left:50%;
+                transform: translate(-50%,-50%);
                 width: 300px;
-                margin-top: 50%;
                 padding: 30px;
-                background-color: rgba(209, 209, 209, 0.81);
+                background-color: rgba(255, 254, 254, 0.9);
             }
             .mui-form legend{
                 text-align: center;
@@ -62,46 +49,45 @@
                 float: right;
                 color: #2626ff;
             }
+            /*  for navigation bar  */
+            .navbar-brand{
+                font-size: 25px;
+                color: white;
+            }
         </style>
     </head>
     
     <body>
-        <div class="container main-container" id="card">
-            <div class="container login-container front">
-                <form class="mui-form">
+        <nav class="navbar navbar-expand-sm navbar-fixed-top" style="width: 100vw; height: 50px;">
+            <a class="navbar-brand" href="home">vHR</a>
+            <div class="navbar-nav" style="margin-left: auto;">
+                  <div class="dropdown">
+                  <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="color: white">
+                    New Registration
+                  </button>
+                  <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                    <a class="dropdown-item" href="candidate_reg">Candidate Registration</a>
+                    <a class="dropdown-item" href="hr_reg">HR Registration</a>
+                  </div>
+                </div>
+            </div>
+
+        </nav>
+            <div class="container login-container">
+                <form class="mui-form" action="login" method="POST">
                   <legend>LOGIN</legend>
                   <div class="mui-textfield mui-textfield--float-label">
-                    <input type="text" name="un">
-                    <label>Username</label>
+                    <input type="text" name="user">
+                    <label style="color: black">Email</label>
                   </div>
                   <div class="mui-textfield mui-textfield--float-label">
-                    <input type="password" name="pswd">
-                    <label>Password</label>
+                    <input type="password" name="pass">
+                    <label style="color: black">Password</label>
                   </div>
                   <button type="submit" class="mui-btn mui-btn--raised">Login</button>
-                  <a href="#" class="register-a">New registration?</a>
+                    
                 </form>
             </div>
-            <div class="container login-container back">
-                <form class="mui-form">
-                  <legend>REGISTER</legend>
-                  <div class="mui-textfield mui-textfield--float-label">
-                    <input type="text" name="un">
-                    <label>Username:</label>
-                  </div>
-                  <div class="mui-textfield mui-textfield--float-label">
-                    <input type="password" name="pswd">
-                    <label>Password</label>
-                  </div>
-                  <div class="mui-textfield">
-                    <input type="file" name="resume">
-                    <label>Resume</label>
-                  </div>
-                  <button type="submit" class="mui-btn mui-btn--raised">Register</button>
-                  <a href="#" class="login-a">I already have an account</a>
-                </form>
-            </div>
-        </div>
     </body>
     
 </html>

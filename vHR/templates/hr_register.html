@@ -1,0 +1,108 @@
+<html>
+    <head>
+        <meta charset="utf-8"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+<!--  bootstrap links      -->
+       <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+        
+        <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+        
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+        
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+        <link href="http://netdna.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.css" rel="stylesheet">
+        
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.js"></script>
+        
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-star-rating/4.0.2/css/star-rating.min.css" />
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-star-rating/4.0.2/js/star-rating.min.js"></script>
+        
+        <!--   css of font awesome     -->
+        <link rel="stylesheet" href="{{ url_for('static', filename = 'css/all.css') }}">
+        <link rel="stylesheet" href="{{ url_for('static', filename = 'css/fontawesome.min.css') }}">
+        <link rel="stylesheet" href="{{ url_for('static', filename = 'js/solid.js') }}">
+        
+        <script src="https://use.fontawesome.com/612cd5b0c6.js"></script>
+        <!-- load MUI -->
+        <link href="//cdn.muicss.com/mui-0.10.1/css/mui.min.css" rel="stylesheet" type="text/css" />
+        <script src="//cdn.muicss.com/mui-0.10.1/js/mui.min.js"></script>
+        <link rel="stylesheet" href="{{ url_for('static', filename = 'css/nav.css') }}">
+<!--    Login container style    -->
+        <style>
+            body{
+                background-image: -moz-linear-gradient(to top, lightblue,dodgerblue);      
+                background-image: linear-gradient(to top, lightblue,dodgerblue);
+            }
+            .main-container{
+                width: 300px;
+            }
+            .login-container{
+                position: absolute !important;
+                top: 50%;
+                left:50%;
+                transform: translate(-50%,-50%);
+                width: 300px;
+                padding: 30px;
+                background-color: rgba(255, 254, 254, 0.9);
+            }
+            .mui-form legend{
+                text-align: center;
+            }
+            .mui-form button{
+                width: 100%;
+            }
+            .mui-form a{
+                float: right;
+                color: #2626ff;
+            }
+            /*  for navigation bar  */
+            
+            .navbar-brand{
+                font-size: 25px;
+                color: white;
+            }
+        </style>
+    </head>
+    
+    <body>
+        <nav class="navbar navbar-expand-sm navbar-fixed-top" style="width: 100vw; height: 50px;">
+            <a class="navbar-brand" href="#">vHR</a>
+            <div class="navbar-nav" style="margin-left: auto;">
+              
+              <div class="nav-item">
+                  <a class="nav-link" href="login">Login <i class="fas fa-sign-in-alt" style="font-size: 16px;"></i></a>
+              </div>
+            </div>
+
+        </nav>
+        <div class="container main-container" >
+            <div class="container login-container">
+                <form class="mui-form">
+                  <legend>REGISTER</legend>
+                  <div class="mui-textfield mui-textfield--float-label">
+                    <input type="email" name="un">
+                    <label style="color: black">Email</label>
+                  </div>
+                  <div class="mui-textfield mui-textfield--float-label">
+                    <input type="password" name="pswd">
+                    <label style="color: black">Password</label>
+                  </div>
+                  <div class="mui-textfield mui-textfield--float-label">
+                    <input type="text" name="un">
+                    <label style="color: black">Name</label>
+                  </div>
+                  <div class="mui-textfield mui-textfield--float-label">
+                    <input type="text" name="un">
+                    <label style="color: black">Company Name</label>
+                  </div>
+                  <div class="mui-textfield mui-textfield--float-label">
+                    <input type="text" name="un">
+                    <label style="color: black">About Company</label>
+                  </div>
+                  <button type="submit" class="mui-btn mui-btn--raised">Register</button>
+                </form>
+            </div>
+        </div>
+    </body>
+    
+</html>

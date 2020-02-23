@@ -49,11 +49,17 @@
     <body>
     
         <nav class="navbar navbar-expand-sm navbar-fixed-top" style="width: 100vw; height: 50px;">
-            <a class="navbar-brand" href="#">vHR</a>
+            <a class="navbar-brand" href="home">vHR</a>
             <div class="navbar-nav" style="margin-left: auto;">
-              <div class="nav-item">
-                  <a class="nav-link" href="#">I'am Hiring</a>
-              </div>
+                  <div class="dropdown">
+                  <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="color: white">
+                    New Registration
+                  </button>
+                  <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                    <a class="dropdown-item" href="candidate_reg">Candidate Registration</a>
+                    <a class="dropdown-item" href="hr_reg">HR Registration</a>
+                  </div>
+                </div>
               <div class="nav-item">
                   <a class="nav-link" href="login">Login <i class="fas fa-sign-in-alt" style="font-size: 16px;"></i></a>
               </div>
@@ -72,7 +78,7 @@
 <!--                    <div class="invalid-feedback"></div>-->
                   </div>
                 <div style="width: 250px; height: 30px;margin-top: 30px;" class="form-group">
-                    <input type="submit" class="form-control btn-resume-check" value="Check">
+                    <input type="submit" class="form-control" style="background-color: #6d6d6d; color: white; border: 0;" value="Check">
                 </div>
             </form>
         

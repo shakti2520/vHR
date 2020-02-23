@@ -47,12 +47,6 @@ def extract_text_from_pdf(pdf_path):
             converter.close()
             fake_file_handle.close()
 
-# calling above function and extracting text\
-text = ''
-#for page in extract_text_from_pdf('D:\\python\\resume parser\\samples\\OmkarResume.pdf'):
-for page in extract_text_from_pdf('D:\\Resume.pdf'):
-    text += ' ' + page
-
 
 # load pre-trained model
 nlp = spacy.load('en_core_web_sm')
@@ -143,3 +137,12 @@ def extract_eperience(resume_text):
             return '+' + number
         else:
             return number
+    
+def fetch_all_details(path):
+    # calling above function and extracting text\
+    text = ''
+    #for page in extract_text_from_pdf('D:\\python\\resume parser\\samples\\OmkarResume.pdf'):
+    for page in extract_text_from_pdf(path):
+        text += ' ' + page
+    skills = extract_skills(text)
+    return skills
