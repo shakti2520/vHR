@@ -10,7 +10,7 @@ import re
 import pandas as pd
 from nltk.tokenize import word_tokenize
 from nltk.corpus import stopwords
-
+import datefinder
 
 def extract_text_from_pdf(pdf_path):
     with open(pdf_path, 'rb') as fh:
@@ -47,8 +47,8 @@ def extract_text_from_pdf(pdf_path):
             converter.close()
             fake_file_handle.close()
 
+# calling above function and extracting text\
 
-# load pre-trained model
 nlp = spacy.load('en_core_web_sm')
 
 # initialize matcher with a vocab
@@ -70,15 +70,15 @@ def extract_name(resume_text):
         return span.text
 
 
-def extract_mobile_number(text):
-    phone = re.findall(re.compile(r'(?:(?:\+?([1-9]|[0-9][0-9]|[0-9][0-9][0-9])\s*(?:[.-]\s*)?)?(?:\(\s*([2-9]1[02-9]|[2-9][02-8]1|[2-9][02-8][02-9])\s*\)|([0-9][1-9]|[0-9]1[02-9]|[2-9][02-8]1|[2-9][02-8][02-9]))\s*(?:[.-]\s*)?)?([2-9]1[02-9]|[2-9][02-9]1|[2-9][02-9]{2})\s*(?:[.-]\s*)?([0-9]{4})(?:\s*(?:#|x\.?|ext\.?|extension)\s*(\d+))?'), text)
-    
-    if phone:
-        number = ''.join(phone[0])
-        if len(number) > 10:
-            return '+' + number
-        else:
-            return number
+def extract_mobile_number(resume_text):
+    nlp_text = nlp(resume_text)
+    pattern = [{"POS":"NUM"}]
+    matcher.add('NUM', None, pattern)
+    matches = matcher(nlp_text)
+    for match_id, start, end in matches:
+        if str(nlp_text[start:end]).isnumeric():
+            span = nlp_text[start:end]
+            return span.text
 
 def extract_email(email):
     email = re.findall("([^@|\s]+@[^@]+\.[^@|\s]+)", email)
@@ -92,21 +92,24 @@ def extract_email(email):
 nlp = spacy.load('en_core_web_sm')
 def extract_skills(resume_text):
     nlp_text = nlp(resume_text)
-
+#     for char in nlp_text:
+#         print(char, "   ",char.pos_)
     # removing stop words and implementing word tokenization
     tokens = [token.text for token in nlp_text if not token.is_stop]
     
     # reading the csv file
-    data = pd.read_csv("skills.csv") 
-    
+    data = pd.read_csv("D:\\vHR\\skills.csv") 
+#     print(data)
     # extract values
     skills = list(data.columns.values)
     
     skillset = []
     nlp_text = nlp(resume_text)
     pattern = [{"POS": "PROPN"}, {"POS": "PROPN"}]
+    pattern2 = [{"POS": "PROPN"}]
     matcher = Matcher(nlp.vocab)
-    matcher.add('NAME', None, pattern)
+    matcher.add('SKILL1', None, pattern)
+    matcher.add('SKILL2', None, pattern2)
     span = []
     matches = matcher(nlp_text)
     #print(matches)
@@ -127,17 +130,65 @@ def extract_skills(resume_text):
     
     return [i.capitalize() for i in set([i.lower() for i in skillset])]
 
-def extract_eperience(resume_text):
-    experience = 0
-    phone = re.findall(re.compile(r'(?:(?:\+?([1-9]|[0-9][0-9]|[0-9][0-9][0-9])\s*(?:[.-]\s*)?)?(?:\(\s*([2-9]1[02-9]|[2-9][02-8]1|[2-9][02-8][02-9])\s*\)|([0-9][1-9]|[0-9]1[02-9]|[2-9][02-8]1|[2-9][02-8][02-9]))\s*(?:[.-]\s*)?)?([2-9]1[02-9]|[2-9][02-9]1|[2-9][02-9]{2})\s*(?:[.-]\s*)?([0-9]{4})(?:\s*(?:#|x\.?|ext\.?|extension)\s*(\d+))?'), text)
-    
-    if phone:
-        number = ''.join(phone[0])
-        if len(number) > 10:
-            return '+' + number
-        else:
-            return number
-    
+def extract_experience(resume):
+    buf = io.StringIO(resume)
+    year2 = []
+    year = []
+    line = buf.readline()
+    while line != "":
+        years = re.findall("([A-Z][a-z]+\s[0-9][0-9][0-9][0-9]|[a-z]+\s[0-9][0-9][0-9][0-9])", line)
+        if len(years)==2:
+            year2.append(years)
+        line = buf.readline()
+    exp = 0
+    for x in year2:
+        y = []
+        for i in x:
+            match = datefinder.find_dates(i)
+            for m in match:
+                y.append(m.date())
+        year.append(y)
+#     print(year)
+    diff_year = []
+    for y in year:
+        diff = y[0]-y[1]
+        exp = exp + diff.days
+        diff_year.append(round((abs(diff.days)/28)/12,1))
+    print(diff_year)
+    total_exp = round((abs(exp)/28)/12,1)
+    experience = { "list_exp": diff_year,
+                   "total_exp":total_exp
+                 }
+    return experience
+
+STOPWORDS = set(stopwords.words('english'))
+
+# Education Degrees
+EDUCATION = [
+            'BE','B.E.', 'B.E', 'BS', 'B.S', 
+            'ME', 'M.E', 'M.E.', 'MS', 'M.S', 
+            'BTECH', 'B.TECH', 'M.TECH', 'MTECH', 
+            'SSC', 'HSC', 'CBSE', 'ICSE', 'X', 'XII',
+            'BCA', 'MCA', 'B.COM', 'M.COM', 'B.SC', 'M.SC',
+            'B.OPTO', 'M.OPTO', 'BBA', 'MBA'
+        ]
+
+def extract_education(resume_text):
+    nlp_text = nlp(resume_text)
+
+    # Sentence Tokenizer
+    nlp_text = [sent.string.strip() for sent in nlp_text.sents]
+
+    education = []
+    # Extract education degree
+    for index, text in enumerate(nlp_text):
+        for tex in text.split():
+            # Replace all special symbols
+            tex = re.sub(r'[?|$|.|!|,]', r'', tex)
+            if tex.upper() in EDUCATION and tex not in STOPWORDS:
+                education.append(tex)
+    return education
+
 def fetch_all_details(path):
     # calling above function and extracting text\
     text = ''
@@ -145,4 +196,5 @@ def fetch_all_details(path):
     for page in extract_text_from_pdf(path):
         text += ' ' + page
     skills = extract_skills(text)
+    
     return skills
